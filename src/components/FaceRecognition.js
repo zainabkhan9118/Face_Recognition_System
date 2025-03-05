@@ -176,8 +176,9 @@ useEffect(() => {
 
             results.forEach((result, i) => {
               const box = resizedDetections[i].detection.box;
+              const confidence = (1 - result.distance) * 100; // Convert distance to confidence percentage
               const drawBox = new faceapi.draw.DrawBox(box, {
-                label: result.toString(),
+                label: `${result.label} (${confidence.toFixed(1)}% match)`,
                 boxColor: result.distance < 0.6 ? 'green' : 'red'
               });
               drawBox.draw(canvas);
@@ -335,10 +336,13 @@ const captureImage = async () => {
             <div className="recognized-faces">
               <h3>Recognized Faces:</h3>
               {recognizedFaces.map((result, index) => (
-                <div key={index} className="recognition-result">
-                  {result.toString()}
-                </div>
-              ))}
+              <div key={index} className="recognition-result">
+                <span className="name">{result.label}</span>
+                <span className={`confidence ${result.distance < 0.6 ? 'high' : 'low'}`}>
+                  {((1 - result.distance) * 100).toFixed(1)}% match
+                </span>
+              </div>
+            ))}
             </div>
           )}
         </>
