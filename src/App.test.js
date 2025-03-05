@@ -1,8 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders Face Recognition App title', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const titleElement = screen.getByText(/Face Recognition App/i);
+  expect(titleElement).toBeInTheDocument();
+});
+
+test('shows loading state initially', () => {
+  render(<App />);
+  const loadingElement = screen.getByText(/Loading models/i);
+  expect(loadingElement).toBeInTheDocument();
 });
